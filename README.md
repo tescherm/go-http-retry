@@ -6,7 +6,7 @@
 
 ## Usage
 
-`go-http-retry` has a default client that offers sensible defaults:
+`go-http-retry` has a default client with sensible defaults:
 
 ```go
 import (
@@ -27,7 +27,7 @@ if err != nil {
 fmt.Print(res.StatusCode)
 ```
 
-however it is possible to provide custom timeout, backoff, or retry values:
+It is possible to provide custom timeout, backoff, or retry values:
 
 ```go
 import (
@@ -56,7 +56,7 @@ if err != nil {
 fmt.Print(res.StatusCode)
 ```
 
-See the [examples](./example_test.go) for more usage.
+See the [example tests](./example_test.go) for more usage.
 
 ## Backoff Policy
 
@@ -65,7 +65,7 @@ See the [examples](./example_test.go) for more usage.
 | Policy               | Description                 |
 |----------------------|-----------------------------|
 | LinearBackoff        | retry every `try * 100` milliseconds   |
-| ExponentialBackoff   | retry every `(try * 100)^try` seconds |
+| ExponentialBackoff   | retry every `(try * 100)^try` milliseconds |
 
 A custom backoff policy can be also be provided:
 
