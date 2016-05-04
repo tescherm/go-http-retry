@@ -165,7 +165,7 @@ func TestClient_RequestTimeoutFail(t *testing.T) {
 				t.Errorf("expected a timeout error %s", e)
 			}
 		default:
-			t.Errorf("expected a network error", e)
+			t.Errorf("expected a network error %s", e)
 		}
 
 		if tries != 3 {

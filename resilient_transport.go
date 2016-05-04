@@ -7,6 +7,8 @@ import (
 	"time"
 )
 
+type OnRetryFunc func(req *http.Request, res *http.Response, err error, try int)
+
 // ResilientTransport is a http.Transport wrapper that provides
 // retry handling with a backoff and retry policy, as well as
 // connection and read/write timeouts
@@ -16,6 +18,7 @@ type ResilientTransport struct {
 	MaxTries    int
 	ShouldRetry RetryPolicyFunc
 	Backoff     BackoffPolicyFunc
+	OnRetry     OnRetryFunc
 
 	transport *http.Transport
 }
@@ -56,6 +59,12 @@ func (t *ResilientTransport) tries(req *http.Request) (*http.Response, error) {
 		// or the request was successful
 		if try == t.MaxTries || !t.ShouldRetry(req, res, err) {
 			return res, err
+		}
+
+		// invoke on retry callback
+		onRetry := t.OnRetry
+		if onRetry != nil {
+			onRetry(req, res, err, try)
 		}
 
 		if res != nil {
